@@ -50,9 +50,10 @@ h1, h2, h3, p { margin: 0; font-weight: 400; }
 .ev { padding-block: 12px; }
 .ev .n { font-size: 24px; line-height: 1.15; }
 .ev .sub { font-family: "Jost", sans-serif; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
-.ev .dc { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 6px; font-size: 16px; font-style: italic; color: var(--ink); line-height: 1.3; }
-.ev .dc i { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
-.ev .dc .k { font-family: "Jost", sans-serif; font-style: normal; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); }
+.ev .dc { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; row-gap: 2px; margin-top: 8px; align-items: baseline; }
+.ev .dc .k { font-family: "Jost", sans-serif; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); min-width: 46px; }
+.ev .dc .v { font-size: 17px; font-style: italic; line-height: 1.35; color: var(--ink); }
+.ev .dc .v i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin: 0 5px 0 6px; vertical-align: 1px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
 .btn { display: inline-flex; align-items: center; min-height: 46px; padding: 10px 26px; border-radius: 999px; background: var(--ink); color: var(--sand); text-decoration: none; font: 500 13px "Jost", sans-serif; letter-spacing: .26em; text-transform: uppercase; }
 .end img { width: 200px; height: 250px; object-fit: cover; object-position: 50% 30%; border-radius: 100px 100px 0 0; }
 .hint { position: absolute; z-index: 5; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); left: 0; right: 0; text-align: center; font: 12px "Jost", sans-serif; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
@@ -133,23 +134,25 @@ h1, h2, h3, p { margin: 0; font-weight: 400; }
   var MAROON = '#6E1A2B', PINK = '#E9789E', SKY = '#8CCBEB';
   var DAYS = [
     [
-      ['11:00 AM', 'Fun & Fair Carnival', 'Carnival', 'Men: suit, koti or jacket · Women: any outfit', [MAROON, PINK], 'maroon · pink'],
-      ['4–6 PM', 'Pehla Rang', 'Mehendi', 'Casual', [], ''],
-      ['8 PM–12', 'Bollywood Baatcheet', 'Sangeet Night', 'Indo-Western', [], '']
+      ['11:00 AM', 'Fun & Fair Carnival', 'Carnival', ['Suit, koti or jacket', MAROON, 'maroon'], ['Any outfit', PINK, 'pink']],
+      ['4–6 PM', 'Sanji Geet', '', ['Casual'], ['Casual']],
+      ['8 PM–12', 'Bollywood Baatcheet', 'Sangeet Night', ['Indo-Western'], ['Indo-Western']]
     ],
     [
-      ['9:00 AM', 'Mandap Muhurat', '', 'Men: traditional kurta · Women: saree (gharchola)', [], ''],
-      ['10:30 AM', 'Fifty Shades of Yellow', 'Haldi', 'Men: kurta · Women: any outfit', [SKY], 'sky blue'],
-      ['4:00 PM', 'Jan Aagman', '', 'Royal traditional', [], ''],
-      ['6:00 PM', 'The Final Walk Down', 'Hast Milap', 'Royal traditional', [], '']
+      ['9:00 AM', 'Mandap Muhurat', '', ['Traditional kurta'], ['Saree (gharchola)']],
+      ['10:30 AM', 'Fifty Shades of Yellow', 'Haldi', ['Kurta', SKY, 'sky blue'], ['Any outfit', SKY, 'sky blue']],
+      ['4:00 PM', 'Jan Aagman', '', ['Royal traditional'], ['Royal traditional']],
+      ['6:00 PM', 'The Final Walk Down', 'Hast Milap', ['Royal traditional'], ['Royal traditional']]
     ]
   ];
   function esc(s) { return s.replace(/&/g, '&amp;'); }
+  function dress(label, d) {
+    return '<span class="k">' + label + '</span><span class="v">' + esc(d[0]) + (d[1] ? '<i style="background:' + d[1] + '"></i>' + d[2] : '') + '</span>';
+  }
   [].forEach.call(document.querySelectorAll('[data-day]'), function (el) {
     el.innerHTML = DAYS[+el.dataset.day].map(function (e) {
-      var dots = e[4].map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('');
       return '<div class="ev"><span class="t">' + e[0] + '</span><div><p class="n">' + esc(e[1]) + '</p>' + (e[2] ? '<p class="sub">' + e[2] + '</p>' : '') +
-        '<p class="dc"><span class="k">Dress code</span>' + esc(e[3]) + (dots ? ' ' + dots + '<span>' + e[5] + '</span>' : '') + '</p></div></div>';
+        '<p class="dc">' + dress('Men', e[3]) + dress('Women', e[4]) + '</p></div></div>';
     }).join('');
   });
   slides.forEach(function () { bars.appendChild(document.createElement('i')).appendChild(document.createElement('b')); });

@@ -135,13 +135,13 @@ h1, h2, h3, p { margin: 0; font-weight: 400; }
   var DAYS = [
     [
       ['11:00 AM', 'Fun & Fair Carnival', 'Carnival', ['Suit, koti or jacket', MAROON, 'maroon'], ['Any outfit', PINK, 'pink']],
-      ['4–6 PM', 'Sanji Geet', '', ['Casual'], ['Casual']],
+      ['4–6 PM', 'Sanji Geet', '', null, null],
       ['8 PM–12', 'Bollywood Baatcheet', 'Sangeet Night', ['Indo-Western'], ['Indo-Western']]
     ],
     [
-      ['9:00 AM', 'Mandap Muhurat', '', ['Traditional kurta'], ['Saree (gharchola)']],
-      ['10:30 AM', 'Fifty Shades of Yellow', 'Haldi', ['Kurta', SKY, 'sky blue'], ['Any outfit', SKY, 'sky blue']],
-      ['4:00 PM', 'Jan Aagman', '', ['Royal traditional'], ['Royal traditional']],
+      ['9:00 AM', 'Mandap Muhurat', '', null, null],
+      ['10:30 AM', 'Fifty Shades of Yellow', 'Haldi', null, null],
+      ['4:00 PM', 'Jan Aagman', '', null, null],
       ['6:00 PM', 'The Final Vow-Down', 'Hast Milap', ['Royal traditional'], ['Royal traditional']]
     ]
   ];
@@ -152,7 +152,7 @@ h1, h2, h3, p { margin: 0; font-weight: 400; }
   [].forEach.call(document.querySelectorAll('[data-day]'), function (el) {
     el.innerHTML = DAYS[+el.dataset.day].map(function (e) {
       return '<div class="ev"><span class="t">' + e[0] + '</span><div><p class="n">' + esc(e[1]) + '</p>' + (e[2] ? '<p class="sub">' + e[2] + '</p>' : '') +
-        '<p class="dc">' + dress('Men', e[3]) + dress('Women', e[4]) + '</p></div></div>';
+        (e[3] ? '<p class="dc">' + dress('Men', e[3]) + dress('Women', e[4]) + '</p>' : '') + '</div></div>';
     }).join('');
   });
   slides.forEach(function () { bars.appendChild(document.createElement('i')).appendChild(document.createElement('b')); });
